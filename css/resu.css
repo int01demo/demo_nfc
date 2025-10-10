@@ -1,13 +1,16 @@
 /* 背景画像を設定するためのスタイル */
-body {
+html, body {
     margin: 0;
     padding: 0;
-    background-image: url('../img/レストラン背景.webp');
+    height: 100%;
+}
+
+body {
+    background-image: url('../img/背景.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
-    position: relative;
-    height: 100vh;
+    background-attachment: fixed; /* スクロールしても背景が固定される */
 }
 
 /* 背景に半透明の黒いオーバーレイを重ねる */

@@ -14,15 +14,18 @@ img {
     width: 100%;
     height: auto;
 }
-
-/* 背景画像（元の指定を維持） */
 body {
-  background-image: url('../img/背景.webp');       /* ←元のまま */
+    background-image: url('../img/背景.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
-  background-attachment: fixed;                    /* スクロールしても背景が固定される */
-  color: white;                                    /* デフォルト文字色（必要なら） */
+    background-attachment: fixed; /* PCでは固定 */
+    color: white;
+    }
+
+/* スマホやタブレットでは scroll に切り替え */
+@media (hover: none) and (pointer: coarse) {
+    body { background-attachment: scroll; }
 }
 
 /* タッチ端末では fixed を scroll に切替（iOS Safariのカクつき対策） */

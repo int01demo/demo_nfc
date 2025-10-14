@@ -8,6 +8,10 @@ html, body {
     -webkit-text-size-adjust: 100%; /* Safari */
 }
 
+img{
+    width: 100%;
+}
+
 body {
     background-image: url('../img/背景.webp');
     background-size: cover;
@@ -25,6 +29,7 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
+    background-attachment: fixed;
 }
 
 /* メインコンテンツのスタイル */
@@ -34,6 +39,17 @@ body {
     text-align: center;
     color: white;
     padding-top: 100px;
+}
+@media screen and (max-width: 499px) { 
+    /*　画面サイズ 499pxまで適用　*/
+}
+@media screen and (min-width: 500px) and (max-width: 999px) {
+    /*　画面サイズ 500pxから999pxまで適用　*/
+
+}
+@media screen and (min-width:1000px) {
+    /*　画面サイズ 1000px以上から適用　*/
+
 }
 
 /* 見出しのスタイル */

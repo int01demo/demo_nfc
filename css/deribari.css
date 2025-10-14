@@ -1,77 +1,122 @@
+/* === 全体の安定化 === */
+* { box-sizing: border-box; }
+
 /* 背景画像を設定するためのスタイル */
-html, body {
+    html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-        /* スマホ文字のスタイル */
+    /* スマホ文字のスタイル */
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%; /* Safari */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
 }
 
+/* 背景画像（元の指定を維持） */
 body {
     background-image: url('../img/デリバリー.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed; /* スクロールしても背景が固定される */
+    color: #111; /* 白いカード上で読みやすい文字色 */
 }
 
-/* 背景に半透明の黒いオーバーレイを重ねる */
+/* タッチ端末では fixed を scroll に切替（iOSのガタつき/消失対策） */
+    @media (hover: none) and (pointer: coarse) {
+    body { background-attachment: scroll; }
+}
+
+/* 背景に半透明の黒いオーバーレイを重ねる（ページが長くても常に全画面） */
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;       /* absolute → fixed に修正 */
+    inset: 0;              /* top/left/width/height を一括指定 */
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
-    background-attachment: fixed;
+    pointer-events: none;  /* 操作の邪魔をしない */
 }
 
+/* === 白いカード（フォーム枠）をコンパクトに === */
 .container {
-    max-width: 500px;
-    margin: auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  /* 画面いっぱいにならないよう、左右に余白＋上限縮小 */
+  width: clamp(300px, 86vw, 420px);     /* 下限 300px / 画面の 86% / 上限 420px */
+    margin: max(20px, env(safe-area-inset-top)) auto 20px;
+    background: #fff;
+    padding: clamp(12px, 3.6vw, 20px);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.14);
+    position: relative;
+    z-index: 2; /* オーバーレイより上 */
+    max-height: 85vh;  /* 縦が長すぎても画面いっぱいになりにくく */
+    overflow: auto;    /* 中身だけスクロール */
 }
 
+/* タイトル */
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 0 12px;
+    font-size: clamp(18px, 5vw, 24px);
+    line-height: 1.25;
+    color: #111;
 }
 
-
+/* 入力行：横並び→狭い画面では自動で縦積み */
 .item {
-    display: flex;
+    display: grid;                   /* flex → grid に変更して整列安定化 */
+    grid-template-columns: 1fr auto; /* 左：ラベル / 右：入力 */
     align-items: center;
-    margin-bottom: 15px;
+    gap: 10px 14px;
+    margin-bottom: clamp(8px, 2.8vw, 12px);
 }
 
+/* ラベル：固定幅は廃止して可変に（折返し対応） */
 label {
-     width: 180px; /* 固定幅にすることで揃う */
-    font-weight: bold;
+    font-weight: 700;
+    color: #222;
+    text-align: left;
 }
 
+/* 数量入力：タップしやすさ・読みやすさ */
 input[type="number"] {
-    width: 60px;
-    padding: 5px;
-;
+    width: clamp(72px, 20vw, 110px); /* 端末幅に合わせて自動調整 */
+    min-height: 42px;                /* タップしやすい高さ */
+    padding: 8px 10px;
+    font-size: clamp(15px, 4vw, 17px);
+    border: 1px solid #c8c8c8;
+    border-radius: 8px;
+    background: #fff;
+    color: #111;
 }
 
+/* 送信ボタン：全幅＋タップしやすい高さ */
 button {
     display: block;
     width: 100%;
-    padding: 10px;
+    min-height: 46px;
+    padding: 10px 14px;
     background-color: #0078D7;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: clamp(15px, 4vw, 17px);
     cursor: pointer;
+    transition: background-color .2s ease, transform .06s ease-in-out;
 }
 
-button:hover {
-    background-color: #005fa3;
+button:hover { background-color: #005fa3; }
+button:active { transform: translateY(1px); }
+button:focus-visible {
+    outline: 3px solid #5cabff;
+    outline-offset: 2px;
+}
+
+/* --- レスポンシブ微調整 --- */
+@media (max-width: 560px) {
+    .item { grid-template-columns: 1fr; } /* 縦積み */
+    input[type="number"] { width: 100%; }
+}
+
+/* 動きが苦手な方向け：モーション軽減 */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }

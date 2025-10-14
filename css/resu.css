@@ -1,73 +1,128 @@
+/* 全体の安定化 */
+* { box-sizing: border-box; }
+
 /* 背景画像を設定するためのスタイル */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-        /* スマホ文字のスタイル */
+    /* スマホ文字のスタイル */
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%; /* Safari */
 }
 
 body {
-    background-image: url('../img/背景.webp');
+  background-image: url('../img/背景.webp');   /* ←元のまま */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
-    background-attachment: fixed; /* スクロールしても背景が固定される */
+    background-attachment: fixed;                /* スクロールしても背景が固定される */
+    color: white;
 }
 
-/* 背景に半透明の黒いオーバーレイを重ねる */
+/* タッチ端末では fixed を scroll に切替（iOSのガタつき/消失対策） */
+@media (hover: none) and (pointer: coarse) {
+    body { background-attachment: scroll; }
+}
+
+/* 背景に半透明の黒いオーバーレイを重ねる（ページが長くても常に全画面） */
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;     /* absolute → fixed に変更 */
+    inset: 0;            /* top/left/width/height を一括指定 */
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
-    background-attachment: fixed;
+    pointer-events: none; /* 操作の邪魔をしない */
+    /* background-attachment は効果が乏しいため削除 */
 }
+
+/* メインコンテンツのスタイル */
 .content {
     position: relative;
     z-index: 2;
     text-align: center;
     color: white;
-    padding-top: 100px;
+    /* 上部余白は画面幅に応じて可変＋ノッチ対応 */
+    padding-top: clamp(64px, 12vw, 100px);
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 24px;
+    padding-top: max(clamp(64px, 12vw, 100px), env(safe-area-inset-top));
 }
+
+/* カレンダー外枠 */
 .calendar-container {
-    width: 500px;
+    width: min(100%, 500px);     /* 500pxを上限にスマホでは100% */
     margin: 0 auto;
-    border-radius: 5px;
+    border-radius: 12px;         /* 5px→少しだけ角丸強め（お好みで戻してOK） */
     background: #f6f5f4;
     color: #1a1a1a;
-}
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12); /* 視認性UP（不要なら削除） */
+    overflow: hidden;            /* はみ出し対策 */
+    }
+
+/* タイトル（h1） */
 h1 {
-    height: 80px;
-    line-height: 80px;
+  /* 高さ固定をやめて中身に合わせる（行溢れ防止） */
+    height: auto;
+    line-height: 1.2;
     text-align: center;
-    font-size: 24px;
+    font-size: clamp(20px, 5vw, 24px); /* 小画面でも収まるよう可変 */
     margin: 0;
+    padding: 16px;              /* 以前の height:80px 相当の余白感 */
 }
+
+/* カレンダー内側パディング（画面幅に応じて可変） */
 .calendar {
-    padding: 0 30px 30px 30px;
+    padding: clamp(0px, 3vw, 10px) clamp(12px, 4vw, 30px) clamp(16px, 5vw, 30px);
+    /* 横はみ出し時のスクロール許可（極端に狭い端末想定） */
+    overflow-x: auto;
 }
+
+/* テーブル */
 table {
     width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;   /* 各列幅を均等にして崩れ防止 */
+    min-width: 320px;      /* 超小画面でも見切れ防止（横スクロールに逃がす） */
 }
+
 th, td {
     text-align: center;
-    padding: 10px;
+    padding: clamp(6px, 2.2vw, 10px);  /* 余白を可変に */
+    /* タップしやすさ確保（セル操作がある場合） */
+    min-height: 40px;
 }
+
 th {
-    font-weight: normal;
-    font-size: 14px;
+    font-weight: 600;                            /* normal→やや強調 */
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: #333;
 }
+
 td {
     font-weight: bold;
+    font-size: clamp(14px, 4vw, 16px);
+    color: #000;
+    /* 休日色などの上書きに負けないようにしておく（必要に応じて調整） */
 }
-.day *:first-child {
-    color: #ff838b;
+
+/* 曜日色（既存ルールを踏襲） */
+.day *:first-child { color: #ff838b; }  /* 例：日曜 */
+.day *:last-child  { color: #6fb5ff; }  /* 例：土曜 */
+
+/* --- 追加の微調整（任意） --- */
+
+/* スマホの横はみ出しを全体で抑制 */
+@media (max-width: 599px) {
+    html, body { overflow-x: hidden; }
 }
-.day *:last-child {
-    color: #6fb5ff;
+
+/* タブレット以上では元の余白感に近づける */
+@media (min-width: 700px) {
+    .calendar { padding: 0 30px 30px 30px; }
+}
+
+/* 動きが苦手な方向け：モーション軽減（現状アニメはないが念のため） */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }

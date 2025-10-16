@@ -2,131 +2,131 @@
 * { box-sizing: border-box; }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  /* スマホ文字のスタイル */
-  text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%; /* Safari */
-}
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* スマホ文字のスタイル */
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%; /* Safari */
+    }
 
 img {
-  display: block;
-  width: 100%;
-  height: auto;
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 body {
-  background-image: url('../img/背景.webp');            /* ←元の指定を維持 */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-attachment: fixed;                         /* スクロールしても背景が固定される */
-  color: white;
+    background-image: url('../img/背景.webp');            /* ←元の指定を維持 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;                         /* スクロールしても背景が固定される */
+    color: white;
 }
 
 /* タッチ端末では fixed を scroll に切替（iOSでの消失/カクつき回避） */
 @media (hover: none) and (pointer: coarse) {
-  body { background-attachment: scroll; }
+    body { background-attachment: scroll; }
 }
 
 /* 背景に半透明の黒いオーバーレイを重ねる */
 .overlay {
-  position: fixed;                  /* absolute → fixed で全画面に確実に適用 */
-  inset: 0;                         /* top/left/width/height を一括指定 */
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  pointer-events: none;             /* 操作の邪魔をしない */
+    position: fixed;                  /* absolute → fixed で全画面に確実に適用 */
+    inset: 0;                         /* top/left/width/height を一括指定 */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    pointer-events: none;             /* 操作の邪魔をしない */
   /* background-attachment は要件外＆効果が乏しいため削除 */
 }
 
 /* メインコンテンツのスタイル */
 .content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: white;
-  /* ノッチ端末にも対応しつつ、画面に応じて余白を可変に */
-  padding-top: max(64px, env(safe-area-inset-top));
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-bottom: 24px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    /* ノッチ端末にも対応しつつ、画面に応じて余白を可変に */
+    padding-top: max(64px, env(safe-area-inset-top));
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
 }
 
 /* 見出しのスタイル（画面幅に応じて可変） */
 h1 {
-  font-size: clamp(28px, 9vw, 80px);                  /* 28〜80pxの範囲で可変 */
-  line-height: 1.1;
-  margin: 16px 0;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    font-size: clamp(28px, 9vw, 80px);                  /* 28〜80pxの範囲で可変 */
+    line-height: 1.1;
+    margin: 16px 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* 段落のスタイル（可読性UP） */
 p {
-  color: #ffcccc;
-  font-size: clamp(16px, 4.5vw, 24px);               /* 小画面でも読みやすく */
-  line-height: 1.7;
-  margin: 8px auto 0;
-  max-width: 72ch;
+    color: #ffcccc;
+    font-size: clamp(16px, 4.5vw, 24px);               /* 小画面でも読みやすく */
+    line-height: 1.7;
+    margin: 8px auto 0;
+    max-width: 72ch;
 }
 
 /* 画像＋ボタンを中央に均等配置するコンテナ */
 .example-container {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: clamp(16px, 4vw, 40px);
-  flex-wrap: wrap;
-  margin-top: clamp(24px, 6vw, 50px);
-  padding: 0 16px;  /* 小画面の横はみ出し防止 */
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: clamp(16px, 4vw, 40px);
+    flex-wrap: wrap;
+    margin-top: clamp(24px, 6vw, 50px);
+    padding: 0 16px;  /* 小画面の横はみ出し防止 */
 }
 
 /* 各画像＋ボタンのボックス */
 .image-card {
-  background: #cfe3f0;
-  width: min(300px, 100%);           /* 300pxを上限に、スマホでははみ出さない */
-  min-height: 400px;                 /* 元の見た目寄り。自由に調整可 */
-  padding: 16px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #cfe3f0;
+    width: min(300px, 100%);           /* 300pxを上限に、スマホでははみ出さない */
+    min-height: 400px;                 /* 元の見た目寄り。自由に調整可 */
+    padding: 16px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 画像のスタイル */
 .image-card img {
-  width: 100%;                       /* 80% → 100% でセンタリング不要＆視覚安定 */
-  aspect-ratio: 4 / 3;               /* 高さ固定→比率指定で崩れにくく */
-  object-fit: cover;
-  margin-bottom: 12px;
-  border-radius: 8px;
+    width: 100%;                       /* 80% → 100% でセンタリング不要＆視覚安定 */
+    aspect-ratio: 4 / 3;               /* 高さ固定→比率指定で崩れにくく */
+    object-fit: cover;
+    margin-bottom: 12px;
+    border-radius: 8px;
 }
 
 /* ボタンのスタイル（幅100%、タップしやすい最小高さ） */
 .image-card button {
-  font-size: clamp(16px, 4.2vw, 18px);
-  width: 100%;                       /* 300px固定→親幅に合わせる */
-  min-height: 48px;                  /* タップしやすい高さ */
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: white;
-  color: #333;
-  cursor: pointer;
-  transition: background-color .2s ease, transform .06s ease-in-out;
+    font-size: clamp(16px, 4.2vw, 18px);
+    width: 100%;                       /* 300px固定→親幅に合わせる */
+    min-height: 48px;                  /* タップしやすい高さ */
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .06s ease-in-out;
 }
 
 /* ホバー時のボタン */
 .image-card button:hover { background-color: #ddd; }
 .image-card button:active { transform: translateY(1px); }
 .image-card button:focus-visible {
-  outline: 3px solid #0078d4;
-  outline-offset: 2px;
+    outline: 3px solid #0078d4;
+    outline-offset: 2px;
 }
 
 /* 画面サイズに応じた微調整（必要に応じて調整してください） */
 @media screen and (max-width: 499px) {
-  .content { padding-left: 16px; padding-right: 16px; }
-  h1 { font-size: clamp(26px, 10vw, 56px); }
+    .content { padding-left: 16px; padding-right: 16px; }
+    h1 { font-size: clamp(26px, 10vw, 56px); }
 }
 
 @media screen and (min-width: 700px) {
@@ -134,10 +134,10 @@ p {
 }
 
 @media screen and (min-width: 1000px) {
-  p { font-size: clamp(18px, 2vw, 24px); }
+    p { font-size: clamp(18px, 2vw, 24px); }
 }
 
 /* 動きが苦手な方のためのモーション軽減 */
 @media (prefers-reduced-motion: reduce) {
-  .image-card button { transition: none; }
+    .image-card button { transition: none; }
 }

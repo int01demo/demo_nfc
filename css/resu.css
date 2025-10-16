@@ -32,7 +32,6 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
     pointer-events: none; /* 操作の邪魔をしない */
-    /* background-attachment は効果が乏しいため削除 */
 }
 
 /* メインコンテンツのスタイル */

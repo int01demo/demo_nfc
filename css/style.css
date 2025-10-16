@@ -1,29 +1,25 @@
-/* 背景画像を設定するためのスタイル（元のまま＋微調整） */
+/* 背景画像を設定するためのスタイル（元のまま＋修正） */
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    /* スマホ文字のスタイル */
+    /* height: 100%; ←削除（背景途切れの原因） */
     text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%; /* Safari */
+    -webkit-text-size-adjust: 100%;
 }
 
-/* 画像要素の基本 */
-img {
-    display: block;
-    width: 100%;
-    height: auto;
-}
+/* スクロール時に切れないよう高さは“最低限”に */
 body {
+    min-height: 100vh;
+    min-height: 100dvh;
     background-image: url('../img/背景.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed; /* PCでは固定 */
     color: white;
-    }
+}
 
-/* スマホやタブレットでは scroll に切り替え */
+/* スマホやタブレットでは fixed をやめる（安定） */
 @media (hover: none) and (pointer: coarse) {
     body { background-attachment: scroll; }
 }
@@ -35,11 +31,11 @@ body {
 
 /* 背景に半透明の黒いオーバーレイを重ねる（画面全体に確実に適用） */
 .overlay {
-  position: fixed;          /* ここを absolute → fixed に変更 */
-  inset: 0;                 /* top:0; left:0; width:100%; height:100% と同義 */
+    position: fixed;          /* ここを absolute → fixed に変更 */
+    inset: 0;                 /* top:0; left:0; width:100%; height:100% と同義 */
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
-  pointer-events: none;     /* クリック操作を邪魔しない */
+    pointer-events: none;     /* クリック操作を邪魔しない */
 }
 
 /* メインコンテンツのスタイル */
@@ -57,7 +53,7 @@ body {
 
 /* 見出しのスタイル（画面幅に応じて可変にしてもOK） */
 h1 {
-  font-size: clamp(28px, 8vw, 80px);              /* 28〜80pxの範囲で可変 */
+    font-size: clamp(28px, 8vw, 80px);              /* 28〜80pxの範囲で可変 */
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     margin: 16px 0;
 }
@@ -85,7 +81,7 @@ p {
 .image-card {
     background: #cfe3f0;
     width: 300px;
-    min-height: 400px;
+    min-height: 350px;
     padding: 16px;
     text-align: center;
     border-radius: 10px;
@@ -106,9 +102,9 @@ p {
     font-size: 1rem;
     width: 100%;
     min-height: 48px;       /* 44〜48px以上推奨 */
-    padding: 12px;
+    padding: 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     background-color: white;
     color: #333;
     cursor: pointer;
